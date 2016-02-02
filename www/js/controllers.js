@@ -73,14 +73,14 @@ angular.module('starter.controllers', [])
   $scope.init = function() {
     $http.get("http://ajax.googleapis.com/ajax/services/feed/load", { params: { "v": "1.0", "q": "http://probasketballtalk.nbcsports.com/feed/" } })
       .success(function(data) {
-        console.log("ERROR: " + data);
-        console.log("ERROR: " + data.responseData);
-        console.log("ERROR: " + data.responseData.feed);
-        console.log("ERROR: " + data.responseData.feed.title);
-        $scope.date = data.responseData.feed.publishedDate;
-        $scope.rssTitle = data.responseData.feed.title;
-        $scope.link = data.responseData.feed.link;
-        $scope.description = data.responseData.feed.contentSnippet;
+//        console.log("ERROR: " + data.responseData.feed.title);
+//        console.log("ERROR: " + data.responseData.feed.entries[0].title);
+//        $scope.date = data.responseData.feed.publishedDate;
+//        $scope.rssTitle = data.responseData.feed.title;
+//        $scope.link = data.responseData.feed.link;
+//        $scope.description = data.responseData.feed.contentSnippet;
+        console.log("ERROR: " + JSON.stringify(data.responseData.feed.entries));
+        $scope.items = JSON.stringify(data.responseData.feed.entries);
 //        $scope.mediaurl = data.responseData.feed.mediaGroups[0].contents[0].url;
       })
       .error(function(data) {

@@ -20,12 +20,14 @@
       <h3>{{ item.description }}</h3>
     </a>
 -->
-    <a ng-repeat="entry in entries" class="item item-thumbnail-left" ng-click="browse(entry.link)">
 
-      <!--<img ng-src="{{ entry.mediaurl }}" />-->
-      <!--<h4>{{ entry.date }}</h4>-->
-      <h2>{{ entry.title }}</h2>
-      <!--<h3>{{ entry.description }}</h3>-->
+    <!--<a ng-repeat="item in items track by $index" class="item item-thumbnail-left" ng-click="browse(item.link)">-->
+    <a ng-repeat="item in items track by $index" class="item item-thumbnail-left">
+
+      <img ng-src="{{ item.mediaurl }}" />
+      <h4>{{ item.date }}</h4>
+      <h2>-{{ item }}-</h2>
+      <h3>{{ item.description }}</h3>
     </a>
 
   </div>
