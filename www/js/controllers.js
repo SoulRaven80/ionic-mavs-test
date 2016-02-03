@@ -21,33 +21,28 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller("FeedController", function($http, $scope) {
+.controller("FeedController", function($scope, RssService) {
   $scope.items = [];
   var defaultNum = 5;
 
   function getData(num) {
-    return $http.get("http://ajax.googleapis.com/ajax/services/feed/load", {
-        params: { "v": "1.0", "num": num, "q": "http://probasketballtalk.nbcsports.com/feed/" }
-      })
-      .success(function(data) {
-//        console.log("ERROR: " + data.responseData.feed.entries[0].title);
-        $scope.items = data.responseData.feed.entries;
-      })
-      .error(function(data) {
+    return RssService.getData(num,
+      function (response) {
+        $scope.items = response.responseData.feed.entries;
+      },
+      function (error) {
         console.log("ERROR: " + data);
-      });
-  };
+    });
+  }
 
   $scope.init = function() {
     getData(defaultNum);
   };
 
   $scope.doRefresh = function() {
-    getData(defaultNum)
-    .finally(function() {
-       // Stop the ion-refresher from spinning
-       $scope.$broadcast('scroll.refreshComplete');
-     });
+    getData(defaultNum);
+     // Stop the ion-refresher from spinning
+     $scope.$broadcast('scroll.refreshComplete');
   };
 
   $scope.loadMore = function() {
