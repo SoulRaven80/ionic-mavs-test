@@ -14,8 +14,8 @@
 
       <img ng-src="{{ item.mediaurl }}" />
       <h4 class="date">{{ item.date | date:'medium'}}</h4>
-      <h2>{{ item.title }}</h2>
-      <h3>{{ item.description }}</h3>
+      <h2 ng-bind-html="item.title"></h2>
+      <h3 ng-bind-html="item.description"></h3>
     </a>
 
   </div>
