@@ -28,7 +28,7 @@ angular.module('starter.controllers', [])
   function getData(num) {
     return RssService.getData(num,
       function (response) {
-        $scope.items = response.responseData.feed.entries;
+        $scope.items = response;
       },
       function (error) {
         console.log("ERROR: " + data);
