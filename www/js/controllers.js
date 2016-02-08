@@ -24,14 +24,18 @@ angular.module('starter.controllers', [])
 .controller("FeedController", function($scope, RssService) {
   $scope.items = [];
   var defaultNum = 5;
+  var urls = ['http://search.espn.go.com/rss/dallas-mavericks/',
+          'http://probasketballtalk.nbcsports.com/feed/'];
 
   function getData(num) {
-    return RssService.getData(num,
-      function (response) {
-        $scope.items = response;
-      },
-      function (error) {
-        console.log("ERROR: " + data);
+    angular.forEach(urls, function( url, index ) {
+      RssService.getData(num, url,
+        function (response) {
+          $scope.items = $scope.items.concat(response);
+        },
+        function (error) {
+          console.log("ERROR: " + data);
+      });
     });
   }
 
