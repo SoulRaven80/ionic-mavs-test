@@ -3,14 +3,14 @@
     <img class="image" src="http://forum.ionicframework.com/user_avatar/forum.ionicframework.com/mhartington/45/7574.png">News
   </ion-nav-title>
 
-  <ion-content ng-controller="FeedController" ng-init="init()">
+  <ion-content ng-controller="FeedController as item" ng-init="init()">
     <ion-refresher
             pulling-text="Pull to refresh..."
             on-refresh="doRefresh()">
     </ion-refresher>
   <div class="list">
 
-    <a ng-repeat="item in items track by $index | orderBy:'date'"
+    <a ng-repeat="item in items | unique :'title' | orderBy : '-date'"
        class="item item-thumbnail-left" ng-click="browse(item.link)">
 
       <img ng-src="{{ item.mediaurl }}" />

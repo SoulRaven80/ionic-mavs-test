@@ -21,9 +21,25 @@ angular.module('starter.controllers', [])
 
 })
 
+.filter('unique', function() {
+   return function(collection, keyname) {
+      var output = [],
+          keys = [];
+
+      angular.forEach(collection, function(item) {
+          var key = item[keyname];
+          if(keys.indexOf(key) === -1) {
+              keys.push(key);
+              output.push(item);
+          }
+      });
+      return output;
+   };
+})
+
 .controller("FeedController", function($scope, RssService) {
   $scope.items = [];
-  var defaultNum = 5;
+  var defaultNum = 10;
   var urls = ['http://search.espn.go.com/rss/dallas-mavericks/',
           'http://probasketballtalk.nbcsports.com/feed/'];
 
@@ -37,6 +53,7 @@ angular.module('starter.controllers', [])
           console.log("ERROR: " + data);
       });
     });
+
   }
 
   $scope.init = function() {
