@@ -11,9 +11,9 @@
   <div class="list">
 
     <a ng-repeat="item in items | unique :'title' | orderBy : '-date'"
-       class="item item-thumbnail-left" ng-click="browse(item.link)">
+       class="item {{ item.mediaurl ? 'item-thumbnail-left' : '' }}" ng-click="browse(item.link)">
 
-      <img ng-src="{{ item.mediaurl }}" />
+      <img ng-src="{{ item.mediaurl }}" ng-show="item.mediaurl" />
       <h4 class="date">{{ item.date | date:'medium'}}</h4>
       <h2 ng-bind-html="item.title"></h2>
       <h3 ng-bind-html="item.description"></h3>
