@@ -40,8 +40,20 @@ angular.module('starter.controllers', [])
 .controller("FeedController", function($scope, RssService) {
   $scope.items = [];
   var defaultNum = 10;
-  var urls = ['http://search.espn.go.com/rss/dallas-mavericks/',
-          'http://probasketballtalk.nbcsports.com/feed/'];
+
+  var compositeFilter = new CompositeFilter();
+  var keywordsFilter = new KeywordsFilter();
+  keywordsFilter.addKeyword('Dallas');
+  keywordsFilter.addKeyword('Mavericks');
+  keywordsFilter.addKeyword('Mavs');
+  keywordsFilter.addKeyword('Nowitzki');
+  var descriptionRequiredFilter = new DescriptionRequiredFilter();
+  compositeFilter.add(descriptionRequiredFilter);
+  compositeFilter.add(keywordsFilter);
+  var urls = [
+      { uri: 'http://search.espn.go.com/rss/dallas-mavericks/', filter: compositeFilter },
+      { uri: 'http://probasketballtalk.nbcsports.com/feed/', filter: compositeFilter }
+    ];
 
   function getData(num) {
     angular.forEach(urls, function( url, index ) {
@@ -50,7 +62,7 @@ angular.module('starter.controllers', [])
           $scope.items = $scope.items.concat(response);
         },
         function (error) {
-          console.log("ERROR: " + data);
+          console.log("ERROR: " + error);
       });
     });
 
