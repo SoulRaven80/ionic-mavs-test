@@ -6,12 +6,12 @@ angular.module('starter.services', [])
         method: 'GET',
         url: 'http://ajax.googleapis.com/ajax/services/feed/load',
         params: { "v": "1.0", "num": num, "q": url.uri }
-     }).success(function(data) {
-        // With the data successfully returned, call our callback
-        successCallback(processData(data.responseData.feed.entries, url.filter));
-    }).error(function(data) {
-        errorCallback(data);
-    });
+     }).then(function(response) {
+          // With the data successfully returned, call our callback
+        successCallback(processData(response.data.responseData.feed.entries, url.filter));
+     }, function(data) {
+      errorCallback(data);
+     });
   }
 
   function processData(entries, filter) {
