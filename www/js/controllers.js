@@ -9,9 +9,6 @@ angular.module('starter.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
-  // Form data for the login modal
-  $scope.loginData = {};
-
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/news.html', {
     scope: $scope
@@ -39,23 +36,44 @@ angular.module('starter.controllers', [])
 
 .controller("FeedController", function($scope, RssService) {
   $scope.items = [];
-  var defaultNum = 10;
+  $scope.props = [];
 
-  var compositeFilter = new CompositeFilter();
+  $scope.settings = {
+    "team.name": "Dallas Mavericks",
+    "keywords":"Dallas:Mavericks:Mavs",
+  };
+
+  var defaultNum = 10;
+  var initialized = false;
+  var alwaysTrueFilter = new AlwaysTrueFilter();
   var keywordsFilter = new KeywordsFilter();
-  keywordsFilter.addKeyword('Dallas');
-  keywordsFilter.addKeyword('Mavericks');
-  keywordsFilter.addKeyword('Mavs');
-  keywordsFilter.addKeyword('Nowitzki');
-  var descriptionRequiredFilter = new DescriptionRequiredFilter();
-  compositeFilter.add(descriptionRequiredFilter);
-  compositeFilter.add(keywordsFilter);
   var urls = [
-      { uri: 'http://search.espn.go.com/rss/dallas-mavericks/', filter: compositeFilter },
-      { uri: 'http://probasketballtalk.nbcsports.com/feed/', filter: compositeFilter }
-    ];
+    { uri: 'http://search.espn.go.com/rss/dallas-mavericks/', filter: alwaysTrueFilter },
+    { uri: 'http://www.nba.com/rss/nba_rss.xml', filter: keywordsFilter },
+    { uri: 'http://www.mavs.com/feed/', filter: alwaysTrueFilter },
+    { uri: 'http://nba.nbcsports.com/feed/', filter: keywordsFilter },
+    { uri: 'http://www.si.com/rss/si_nba.rss', filter: keywordsFilter },
+    { uri: 'http://rss.nytimes.com/services/xml/rss/nyt/ProBasketball.xml', filter: keywordsFilter },
+    { uri: 'http://www.sportsworldnews.com/rss/sections/nba.xml', filter: keywordsFilter }
+
+//    { uri: 'http://thesmokingcuban.com/tag/dallas/feed/', filter: descriptionRequiredFilter },
+//    { uri: 'http://sportspyder.com/teams/dallas-mavericks/news.xml', filter: descriptionRequiredFilter },
+//    { uri: 'https://sports.yahoo.com/nba/teams/dal/rss.xml', filter: descriptionRequiredFilter },
+//    { uri: 'http://probasketballtalk.nbcsports.com/feed/', filter: compositeFilter }
+  ];
+
+  function initData() {
+    if (!initialized) {
+      var keys = $scope.settings['keywords'].split(":");
+      angular.forEach(keys, function( key, index ) {
+        keywordsFilter.addKeyword(key);
+      });
+      initialized = true;
+    }
+  }
 
   function getData(num) {
+    initData();
     angular.forEach(urls, function( url, index ) {
       RssService.getData(num, url,
         function (response) {
@@ -69,7 +87,7 @@ angular.module('starter.controllers', [])
   }
 
   $scope.init = function() {
-    getData(defaultNum);
+    initData();
   };
 
   $scope.doRefresh = function() {

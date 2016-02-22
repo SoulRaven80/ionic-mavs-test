@@ -1,9 +1,5 @@
-<ion-view view-title="News">
-  <ion-nav-title>
-    <img class="image" src="http://forum.ionicframework.com/user_avatar/forum.ionicframework.com/mhartington/45/7574.png">News
-  </ion-nav-title>
-
-  <ion-content ng-controller="FeedController as item" ng-init="init()">
+<ion-view view-title="{{settings['team.name']}} News" ng-init="init()">
+  <ion-content ng-controller="FeedController as item">
     <ion-refresher
             pulling-text="Pull to refresh..."
             on-refresh="doRefresh()">
@@ -24,5 +20,5 @@
       on-infinite="loadMore()"
       distance="1%">
     </ion-infinite-scroll>
-</ion-content>
+  </ion-content>
 </ion-view>
